@@ -15,7 +15,9 @@ require('map')
 Window = {}
 Mouse = {}
 
-SCALE = 2
+SCALE = 4
+
+DebugMode = false
 
 
 
@@ -56,9 +58,14 @@ function love.draw()
     MapDraw()
 
     -- DEBUG
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.print("L="..tostring(Mouse.l).." C="..tostring(Mouse.c), 5, 5)
-    love.graphics.setColor(1, 1, 1)
+    if DebugMode then
+        love.graphics.setColor(1, 0, 0)
+        love.graphics.print(
+            "L="..tostring(Mouse.l).." C="..tostring(Mouse.c).." T="..tostring(GetMapContent(Mouse.l, Mouse.c)),
+            5, 5
+        )
+        love.graphics.setColor(1, 1, 1)
+    end
 
 end
 
@@ -70,12 +77,17 @@ function love.keypressed(key)
 
     print(key)
 
-    -- MAP SWITCH
-    if key == 'g' then
-        if Map.grid then
-            Map.grid = false
+    -- QUIT
+    if key == "escape" then
+        love.event.quit()
+    end
+
+    -- DEBUG MODE SWITCH
+    if key == 'd' then
+        if DebugMode then
+            DebugMode = false
         else
-            Map.grid = true
+            DebugMode = true
         end
     end
 

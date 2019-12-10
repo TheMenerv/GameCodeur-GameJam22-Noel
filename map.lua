@@ -12,6 +12,7 @@ TILE_DOOR_FACE  = 'door face'
 TILE_DOOR_SIDE  = 'door side'
 
 Map = {}
+Map.tools = {}
 
 local imgGround     = love.graphics.newImage('images/ground.png')
 local imgWall       = love.graphics.newImage('images/wall.png')
@@ -19,11 +20,14 @@ local imgDoorSide   = love.graphics.newImage('images/door1.png')
 local imgDoorFace   = love.graphics.newImage('images/door2.png')
 
 
+
 -- MAP LOAD
 -----------
 function MapLoad()
 
     DebugMode = false
+
+    -- Création du batiment
     Map.c = {}
     for l = 1, Window.height / BLOC_SIZE do
         Map[l] = {}
@@ -42,6 +46,9 @@ function MapLoad()
         end
     end
 
+    -- Création des outillages
+    CreateTool('bench', 4, 3, 4, 'bench')
+
 end
 
 
@@ -50,9 +57,10 @@ end
 -----------
 function MapDraw()
 
-    for l = 1, #Map do
-        for c = 1, #Map[l] do
-            if DebugMode then
+    if DebugMode then
+
+        for l = 1, #Map do
+            for c = 1, #Map[l] do
                 love.graphics.rectangle(
                     'line',
                     (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
@@ -60,7 +68,14 @@ function MapDraw()
                     BLOC_SIZE * SCALE,
                     BLOC_SIZE * SCALE
                 )
-            else
+            end
+        end
+
+    else
+
+        -- Déssine le batiment
+        for l = 1, #Map do
+            for c = 1, #Map[l] do
                 if Map[l][c] == TILE_GROUND then
                     love.graphics.draw(
                         imgGround,
@@ -92,6 +107,14 @@ function MapDraw()
                 end
             end
         end
+
+        -- Déssine les outils
+        for t = #Map.tools, 1, -1 do
+            local tool = Map.tools[t]
+            local level = tool.currentLevel
+            love.graphics.draw(tool.levels[level], tool.x, tool.y, 0, SCALE, SCALE)
+        end
+
     end
 
 end
@@ -103,5 +126,47 @@ end
 function GetMapContent(pL, pC)
 
     return Map[pL][pC]
+
+end
+
+
+
+-- GET MAP TOOL
+------------------
+function GetMapTool(pL, pC)
+
+    for t = #Map.tools, 1, -1 do
+        local tool = Map.tools[t]
+        if pL == tool.l and pC == tool.c then
+            return tool.name
+        end
+    end
+
+    return 'empty'
+
+end
+
+
+
+-- LOCAL : CREATE TOOL
+----------------------
+function CreateTool(pName, pL, pC, pMaxLevel, pTileName)
+
+    local myTool = {}
+    myTool.name = pName
+    myTool.l = pL
+    myTool.c = pC
+    myTool.x = (pC * (BLOC_SIZE * SCALE)) - (BLOC_SIZE * SCALE)
+    myTool.y = (pL * (BLOC_SIZE * SCALE)) - (BLOC_SIZE * SCALE)
+    myTool.currentLevel = 1
+    myTool.levelmax = pMaxLevel
+    myTool.levels = {}
+    for l = 1, myTool.levelmax do
+        myTool.levels[l] = love.graphics.newImage('images/'..pName..l..'.png')
+    end
+
+    table.insert(Map.tools, myTool)
+
+    return myTool
 
 end

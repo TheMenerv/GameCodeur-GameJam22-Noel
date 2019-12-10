@@ -61,7 +61,10 @@ function love.draw()
     if DebugMode then
         love.graphics.setColor(1, 0, 0)
         love.graphics.print(
-            "L="..tostring(Mouse.l).." C="..tostring(Mouse.c).." T="..tostring(GetMapContent(Mouse.l, Mouse.c)),
+            "L="..tostring(Mouse.l)..
+            " C="..tostring(Mouse.c)..
+            " B="..tostring(GetMapContent(Mouse.l, Mouse.c))..
+            " T="..tostring(GetMapTool(Mouse.l, Mouse.c)),
             5, 5
         )
         love.graphics.setColor(1, 1, 1)
@@ -84,11 +87,7 @@ function love.keypressed(key)
 
     -- DEBUG MODE SWITCH
     if key == 'd' then
-        if DebugMode then
-            DebugMode = false
-        else
-            DebugMode = true
-        end
+        DebugMode = not DebugMode
     end
 
 end

@@ -22,6 +22,7 @@ function love.load()
     window.height = love.graphics.getHeight()
 
     -- MAP
+    map.grid = false
     local l, c
     map.c = {}
     for l = 1, window.height / BLOC_SIZE do
@@ -51,23 +52,31 @@ end
 function love.draw()
 
     -- MAP
-    love.graphics.push()
     local l, c
     for l = 1, #map do
         for c = 1, #map[l] do
-            love.graphics.rectangle(
-                'fill',
-                (c * BLOC_SIZE) - BLOC_SIZE,
-                (l * BLOC_SIZE) - BLOC_SIZE,
-                BLOC_SIZE,
-                BLOC_SIZE
-            )
+            if map.grid then
+                love.graphics.rectangle(
+                    'line',
+                    (c * BLOC_SIZE) - BLOC_SIZE,
+                    (l * BLOC_SIZE) - BLOC_SIZE,
+                    BLOC_SIZE,
+                    BLOC_SIZE
+                )
+            else
+                love.graphics.rectangle(
+                    'fill',
+                    (c * BLOC_SIZE) - BLOC_SIZE,
+                    (l * BLOC_SIZE) - BLOC_SIZE,
+                    BLOC_SIZE,
+                    BLOC_SIZE
+                )
+            end
         end
     end
-    love.graphics.setColor(0, 0, 0)
+    love.graphics.setColor(1, 0, 0)
     love.graphics.print("L="..tostring(mouse.l).." C="..tostring(mouse.c), 5, 5)
     love.graphics.setColor(1, 1, 1)
-    love.graphics.pop()
 
 end
 
@@ -78,6 +87,15 @@ end
 function love.keypressed(key)
 
     print(key)
+
+    -- MAP
+    if key == 'g' then
+        if map.grid then
+            map.grid = false
+        else
+            map.grid = true
+        end
+    end
 
 end
 

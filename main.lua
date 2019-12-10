@@ -7,6 +7,8 @@ love.graphics.setDefaultFilter("nearest")
 
 local window = {}
 
+SCALE = 2
+
 -- MAP
 local BLOC_SIZE = 32
 local map = {}
@@ -18,12 +20,16 @@ local mouse = {}
 -----------------
 function love.load()
 
-    window.width = love.graphics.getWidth()
-    window.height = love.graphics.getHeight()
+    love.window.setMode(768, 640)
+    love.window.setTitle("Menerv: Game Codeur GameJam #22")
+    local icon = love.image.newImageData('images/icon.png')
+    love.window.setIcon(icon)
+
+    window.width = love.graphics.getWidth() / SCALE
+    window.height = love.graphics.getHeight() / SCALE
 
     -- MAP
     map.grid = false
-    local l, c
     map.c = {}
     for l = 1, window.height / BLOC_SIZE do
         map[l] = {}
@@ -52,24 +58,23 @@ end
 function love.draw()
 
     -- MAP
-    local l, c
     for l = 1, #map do
         for c = 1, #map[l] do
             if map.grid then
                 love.graphics.rectangle(
                     'line',
-                    (c * BLOC_SIZE) - BLOC_SIZE,
-                    (l * BLOC_SIZE) - BLOC_SIZE,
-                    BLOC_SIZE,
-                    BLOC_SIZE
+                    (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    BLOC_SIZE * SCALE,
+                    BLOC_SIZE * SCALE
                 )
             else
                 love.graphics.rectangle(
                     'fill',
-                    (c * BLOC_SIZE) - BLOC_SIZE,
-                    (l * BLOC_SIZE) - BLOC_SIZE,
-                    BLOC_SIZE,
-                    BLOC_SIZE
+                    (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    BLOC_SIZE * SCALE,
+                    BLOC_SIZE * SCALE
                 )
             end
         end
@@ -109,8 +114,8 @@ function GetMousePos()
 
     local myMouse = {}
 
-    myMouse.l = math.floor(y / BLOC_SIZE) + 1
-    myMouse.c = math.floor(x / BLOC_SIZE) + 1
+    myMouse.l = math.floor(y / (BLOC_SIZE * SCALE)) + 1
+    myMouse.c = math.floor(x / (BLOC_SIZE * SCALE)) + 1
 
     return myMouse
 

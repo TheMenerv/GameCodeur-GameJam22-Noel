@@ -34,6 +34,7 @@ function SantaUpdate(dt)
         end
     end
     if love.keyboard.isDown('right') then
+        santa.dir = 'right'
         local temp = santa.x
         santa.x = santa.x + 2 * 60 * dt
         if SantaIsCollide() then
@@ -48,6 +49,7 @@ function SantaUpdate(dt)
         end
     end
     if love.keyboard.isDown('left') then
+        santa.dir = 'left'
         local temp = santa.x
         santa.x = santa.x - 2 * 60 * dt
         if SantaIsCollide() then
@@ -63,13 +65,17 @@ end
 -------------
 function SantaDraw()
 
-    love.graphics.draw(santa.img, santa.x, santa.y, 0, SCALE, SCALE)
+    if santa.dir == 'left' then
+        love.graphics.draw(santa.img, santa.x, santa.y, 0, SCALE, SCALE)
+    else
+        love.graphics.draw(santa.img, santa.x + (santa.img:getWidth() * SCALE), santa.y, 0, - SCALE, SCALE)
+    end
     -- Debug collision
-    local x1 = santa.x + (3 * SCALE)
-    local x2 = santa.x + (santa.img:getWidth() * SCALE) - (3 * SCALE)
-    local y1 = santa.y + (santa.img:getHeight() * SCALE) - (2 * SCALE)
-    local y2 = santa.y + (santa.img:getHeight() * SCALE)
-    love.graphics.rectangle('line', x1, y1, x2-x1, y2-y1)
+    --local x1 = santa.x + (3 * SCALE)
+    --local x2 = santa.x + (santa.img:getWidth() * SCALE) - (3 * SCALE)
+    --local y1 = santa.y + (santa.img:getHeight() * SCALE) - (2 * SCALE)
+    --local y2 = santa.y + (santa.img:getHeight() * SCALE)
+    --love.graphics.rectangle('line', x1, y1, x2-x1, y2-y1)
 
 end
 

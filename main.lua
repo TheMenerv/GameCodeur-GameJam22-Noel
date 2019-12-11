@@ -9,6 +9,7 @@ love.graphics.setDefaultFilter("nearest")
 
 require('utils')
 require('map')
+require('gui')
 
 
 
@@ -36,6 +37,9 @@ function love.load()
     -- MAP
     MapLoad()
 
+    -- GUI
+    GUILoad()
+
 end
 
 
@@ -45,6 +49,8 @@ end
 function love.update(dt)
 
     Mouse = GetMousePos()
+
+    GUIUpdate(dt)
 
 end
 
@@ -56,6 +62,9 @@ function love.draw()
 
     -- MAP
     MapDraw()
+
+    -- GUI
+    GUIDraw()
 
     -- DEBUG
     if DebugMode then

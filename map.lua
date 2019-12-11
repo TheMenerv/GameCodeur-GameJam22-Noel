@@ -12,7 +12,7 @@ TILE_DOOR_FACE  = 'door face'
 TILE_DOOR_SIDE  = 'door side'
 
 Map = {}
-Map.tools = {}
+Map.listTools = {}
 
 local imgGround     = love.graphics.newImage('images/ground.png')
 local imgWall       = love.graphics.newImage('images/wall.png')
@@ -109,8 +109,8 @@ function MapDraw()
         end
 
         -- Déssine les outils
-        for t = #Map.tools, 1, -1 do
-            local tool = Map.tools[t]
+        for t = #Map.listTools, 1, -1 do
+            local tool = Map.listTools[t]
             local level = tool.currentLevel
             love.graphics.draw(tool.levels[level], tool.x, tool.y, 0, SCALE, SCALE)
         end
@@ -135,8 +135,8 @@ end
 ------------------
 function GetMapTool(pL, pC)
 
-    for t = #Map.tools, 1, -1 do
-        local tool = Map.tools[t]
+    for t = #Map.listTools, 1, -1 do
+        local tool = Map.listTools[t]
         if pL == tool.l and pC == tool.c then
             return tool.name
         end
@@ -165,8 +165,25 @@ function CreateTool(pName, pL, pC, pMaxLevel, pTileName)
         myTool.levels[l] = love.graphics.newImage('images/'..pName..l..'.png')
     end
 
-    table.insert(Map.tools, myTool)
+    table.insert(Map.listTools, myTool)
 
     return myTool
+
+end
+
+
+
+-- GET TOOL INFO
+----------------
+function GetToolInfo(pToolName)
+
+    for i = #Map.listTools, 1, -1 do
+        local tool = Map.listTools[i]
+        if tool.name == pToolName then
+            return tool.currentLevel
+        end
+    end
+
+    return 0
 
 end

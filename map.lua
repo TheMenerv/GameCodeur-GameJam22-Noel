@@ -55,66 +55,68 @@ end
 
 -- MAP DRAW
 -----------
+function MapDebugDraw()
+
+    for l = 1, #Map do
+        for c = 1, #Map[l] do
+            love.graphics.rectangle(
+                'line',
+                (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                BLOC_SIZE * SCALE,
+                BLOC_SIZE * SCALE
+            )
+        end
+    end
+
+end
+
+
+
+-- MAP DRAW
+-----------
 function MapDraw()
 
-    if DebugMode then
-
-        for l = 1, #Map do
-            for c = 1, #Map[l] do
-                love.graphics.rectangle(
-                    'line',
+    -- Déssine le batiment
+    for l = 1, #Map do
+        for c = 1, #Map[l] do
+            if Map[l][c] == TILE_GROUND then
+                love.graphics.draw(
+                    imgGround,
                     (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
                     (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                    BLOC_SIZE * SCALE,
-                    BLOC_SIZE * SCALE
+                    0, SCALE, SCALE
+                )
+            elseif Map[l][c] == TILE_WALL then
+                love.graphics.draw(
+                    imgWall,
+                    (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    0, SCALE, SCALE
+                )
+            elseif Map[l][c] == TILE_DOOR_SIDE then
+                love.graphics.draw(
+                    imgDoorSide,
+                    (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    0, SCALE, SCALE
+                )
+            elseif Map[l][c] == TILE_DOOR_FACE then
+                love.graphics.draw(
+                    imgDoorFace,
+                    (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
+                    0, SCALE, SCALE
                 )
             end
         end
+    end
 
-    else
-
-        -- Déssine le batiment
-        for l = 1, #Map do
-            for c = 1, #Map[l] do
-                if Map[l][c] == TILE_GROUND then
-                    love.graphics.draw(
-                        imgGround,
-                        (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                        (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                        0, SCALE, SCALE
-                    )
-                elseif Map[l][c] == TILE_WALL then
-                    love.graphics.draw(
-                        imgWall,
-                        (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                        (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                        0, SCALE, SCALE
-                    )
-                elseif Map[l][c] == TILE_DOOR_SIDE then
-                    love.graphics.draw(
-                        imgDoorSide,
-                        (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                        (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                        0, SCALE, SCALE
-                    )
-                elseif Map[l][c] == TILE_DOOR_FACE then
-                    love.graphics.draw(
-                        imgDoorFace,
-                        (c * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                        (l * BLOC_SIZE * SCALE) - (BLOC_SIZE * SCALE),
-                        0, SCALE, SCALE
-                    )
-                end
-            end
-        end
-
-        -- Déssine les outils
-        for t = #Map.listTools, 1, -1 do
-            local tool = Map.listTools[t]
-            local level = tool.currentLevel
-            love.graphics.draw(tool.levels[level], tool.x, tool.y, 0, SCALE, SCALE)
-        end
-
+    -- Déssine les outils
+    for t = #Map.listTools, 1, -1 do
+        local tool = Map.listTools[t]
+        local level = tool.currentLevel
+        love.graphics.draw(tool.levels[level], tool.x, tool.y, 0, SCALE, SCALE)
     end
 
 end

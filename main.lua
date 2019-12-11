@@ -60,14 +60,11 @@ end
 -------
 function love.draw()
 
-    -- MAP
-    MapDraw()
-
-    -- GUI
-    GUIDraw()
-
     -- DEBUG
     if DebugMode then
+
+        MapDebugDraw()
+
         love.graphics.setColor(1, 0, 0)
         love.graphics.print(
             "L="..tostring(Mouse.l)..
@@ -77,6 +74,15 @@ function love.draw()
             5, 5
         )
         love.graphics.setColor(1, 1, 1)
+
+    else
+
+        -- MAP
+        MapDraw()
+
+        -- GUI
+        GUIDraw()
+
     end
 
 end

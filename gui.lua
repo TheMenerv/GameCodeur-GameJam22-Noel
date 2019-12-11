@@ -24,7 +24,7 @@ end
 -------------
 function GUIUpdate(dt)
 
-    timerDay = timerDay - (0.4 * dt)
+    timerDay = timerDay - dt
     if timerDay < 0 then timerDay = 0 end
 
     bench = GetToolInfo('bench')

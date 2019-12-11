@@ -133,6 +133,20 @@ end
 
 
 
+-- PIXEL TO MAP
+------------------------
+function PixelToMap(pX, pY)
+
+    local coor = {}
+    coor.l = math.floor(pY / (BLOC_SIZE * SCALE)) + 1
+    coor.c = math.floor(pX / (BLOC_SIZE * SCALE)) + 1
+
+    return coor
+
+end
+
+
+
 -- GET MAP TOOL
 ------------------
 function GetMapTool(pL, pC)

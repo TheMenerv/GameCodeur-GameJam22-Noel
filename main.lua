@@ -10,6 +10,7 @@ love.graphics.setDefaultFilter("nearest")
 require('utils')
 require('map')
 require('gui')
+require('santa')
 
 
 
@@ -40,6 +41,9 @@ function love.load()
     -- GUI
     GUILoad()
 
+    -- SANTA
+    SantaLoad()
+
 end
 
 
@@ -50,7 +54,11 @@ function love.update(dt)
 
     Mouse = GetMousePos()
 
+    -- GUI
     GUIUpdate(dt)
+
+    -- SANTA
+    SantaUpdate(dt)
 
 end
 
@@ -82,6 +90,9 @@ function love.draw()
 
         -- GUI
         GUIDraw()
+
+        -- SANTA
+        SantaDraw()
 
     end
 

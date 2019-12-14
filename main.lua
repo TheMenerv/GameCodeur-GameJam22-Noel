@@ -8,6 +8,7 @@ love.graphics.setDefaultFilter("nearest")
 
 
 require('utils')
+require('screens')
 require('map')
 require('gui')
 require('santa')
@@ -20,6 +21,11 @@ Mouse = {}
 SCALE = 4
 
 DebugMode = false
+
+TimeOver = false
+GameWin = false
+
+local screen
 
 
 
@@ -35,14 +41,8 @@ function love.load()
     Window.width = love.graphics.getWidth() / SCALE
     Window.height = love.graphics.getHeight() / SCALE
 
-    -- MAP
-    MapLoad()
-
-    -- GUI
-    GUILoad()
-
-    -- SANTA
-    SantaLoad()
+    -- INIT GAME
+    InitGame()
 
 end
 
@@ -54,11 +54,22 @@ function love.update(dt)
 
     Mouse = GetMousePos()
 
-    -- GUI
-    GUIUpdate(dt)
+    if screen == 'game' then
+        if TimeOver then
+            if GameWin then
+                screen = 'win'
+            else
+                screen = 'fail'
+            end
+        -- GAME UPDATE
+        else
+            -- GUI
+            GUIUpdate(dt)
+            -- SANTA
+            SantaUpdate(dt)
+        end
+    end
 
-    -- SANTA
-    SantaUpdate(dt)
 
 end
 
@@ -68,32 +79,40 @@ end
 -------
 function love.draw()
 
-    -- DEBUG
-    if DebugMode then
+    -- TITLE SCREEN
+    if screen == 'title' then
+        DrawTitleScreen()
+    
+    -- WIN SCREEN
+    elseif screen == 'win' then
+        DrawWinScreen()
 
-        MapDebugDraw()
+    -- FAIL SCREEN
+    elseif screen == 'fail' then
+        DrawFailScreen()
 
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.print(
-            "L="..tostring(Mouse.l)..
-            " C="..tostring(Mouse.c)..
-            " B="..tostring(GetMapContent(Mouse.l, Mouse.c))..
-            " T="..tostring(GetMapTool(Mouse.l, Mouse.c)),
-            5, 5
-        )
-        love.graphics.setColor(1, 1, 1)
-
+    -- GAME SCREEN
     else
-
-        -- MAP
-        MapDraw()
-
-        -- GUI
-        GUIDraw()
-
-        -- SANTA
-        SantaDraw()
-
+        -- DEBUG
+        if DebugMode then
+            MapDebugDraw()
+            love.graphics.setColor(1, 0, 0)
+            love.graphics.print(
+                "L="..tostring(Mouse.l)..
+                " C="..tostring(Mouse.c)..
+                " B="..tostring(GetMapContent(Mouse.l, Mouse.c))..
+                " T="..tostring(GetMapTool(Mouse.l, Mouse.c)),
+                5, 5
+            )
+            love.graphics.setColor(1, 1, 1)
+        else
+            -- MAP
+            MapDraw()
+            -- GUI
+            GUIDraw()
+            -- SANTA
+            SantaDraw()
+        end
     end
 
 end
@@ -107,13 +126,60 @@ function love.keypressed(key)
     print(key)
 
     -- QUIT
-    if key == "escape" then
+    if key == 'escape' then
         love.event.quit()
     end
 
+    -- SCREEN CHANGE
+    if key == 'space' then
+        if screen == 'title' then
+            screen = 'game'
+        elseif screen == 'win' then
+            screen = 'title'
+            ResetGame()
+        elseif screen == 'fail' then
+            screen = 'title'
+            ResetGame()
+        end
+    end
+
     -- DEBUG MODE SWITCH
-    if key == 'd' then
+    if key == 'd' and screen == 'game' then
         DebugMode = not DebugMode
     end
+
+end
+
+
+
+-- INIT GAME
+------------
+function InitGame()
+
+    ResetGame()
+
+    -- SANTA
+    SantaLoad()
+
+end
+
+
+
+-- RESET GAME
+------------
+function ResetGame()
+
+    DebugMode = false
+    TimeOver = false
+    GameWin = false
+    
+    -- SCREEN TITLE
+    screen = 'title'
+
+    -- MAP
+    MapLoad()
+
+    -- GUI
+    GUILoad()
 
 end

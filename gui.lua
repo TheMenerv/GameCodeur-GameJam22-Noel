@@ -4,7 +4,7 @@
 
 
 
-local bench, games, maxGames, timerDay
+local games, maxGames, timerDay
 
 
 
@@ -12,7 +12,6 @@ local bench, games, maxGames, timerDay
 -----------
 function GUILoad()
 
-    bench = 1
     games = 0
     maxGames = 1000
     timerDay = 365
@@ -36,8 +35,6 @@ function GUIUpdate(dt)
       TimeOver = true
     end
 
-    bench = GetToolInfo('bench')
-
 end
 
 
@@ -48,6 +45,5 @@ function GUIDraw()
 
     love.graphics.print("Jours avant Noel: "..tostring(math.floor(timerDay)), 5, 5)
     love.graphics.print("Jouets produits: "..tostring(math.floor(games)).."/"..tostring(maxGames), 5, 20)
-    love.graphics.print("Niveau de l'établi: "..tostring(bench).."/4", 200, 5)
 
 end

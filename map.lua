@@ -18,6 +18,12 @@ local imgGround     = love.graphics.newImage('images/ground.png')
 local imgWall       = love.graphics.newImage('images/wall.png')
 local imgDoorSide   = love.graphics.newImage('images/door1.png')
 local imgDoorFace   = love.graphics.newImage('images/door2.png')
+local imgAnvil      = love.graphics.newImage('images/anvil.png')
+local imgBench      = love.graphics.newImage('images/bench.png')
+local imgPress      = love.graphics.newImage('images/press.png')
+local imgSaw        = love.graphics.newImage('images/saw.png')
+local imgSled       = love.graphics.newImage('images/sled.png')
+local imgSmithy     = love.graphics.newImage('images/smithy.png')
 
 
 
@@ -47,7 +53,12 @@ function MapLoad()
     end
 
     -- Création des outillages
-    CreateTool('bench', 4, 3, 4, 'bench')
+    CreateTool('anvil', 6, 3, imgAnvil)
+    CreateTool('bench', 4, 5, imgBench)
+    CreateTool('press', 8, 5, imgPress)
+    CreateTool('saw', 4, 7, imgSaw)
+    CreateTool('sled', 6, 10, imgSled)
+    CreateTool('smithy', 8, 7, imgSmithy)
 
 end
 
@@ -116,7 +127,7 @@ function MapDraw()
     for t = #Map.listTools, 1, -1 do
         local tool = Map.listTools[t]
         local level = tool.currentLevel
-        love.graphics.draw(tool.levels[level], tool.x, tool.y, 0, SCALE, SCALE)
+        love.graphics.draw(tool.img, tool.x, tool.y, 0, SCALE, SCALE)
     end
 
 end
@@ -166,7 +177,7 @@ end
 
 -- LOCAL : CREATE TOOL
 ----------------------
-function CreateTool(pName, pL, pC, pMaxLevel, pTileName)
+function CreateTool(pName, pL, pC, pTile)
 
     local myTool = {}
     myTool.name = pName
@@ -174,12 +185,7 @@ function CreateTool(pName, pL, pC, pMaxLevel, pTileName)
     myTool.c = pC
     myTool.x = (pC * (BLOC_SIZE * SCALE)) - (BLOC_SIZE * SCALE)
     myTool.y = (pL * (BLOC_SIZE * SCALE)) - (BLOC_SIZE * SCALE)
-    myTool.currentLevel = 1
-    myTool.levelmax = pMaxLevel
-    myTool.levels = {}
-    for l = 1, myTool.levelmax do
-        myTool.levels[l] = love.graphics.newImage('images/'..pName..l..'.png')
-    end
+    myTool.img = pTile
 
     table.insert(Map.listTools, myTool)
 

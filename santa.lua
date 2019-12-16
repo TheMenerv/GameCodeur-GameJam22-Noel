@@ -8,9 +8,9 @@ local santa = {}
 santa.img = love.graphics.newImage('images/santa.png')
 
 local cKey = love.graphics.newImage('images/c.png')
-local vKey = love.graphics.newImage('images/v.png')
 
 local collideTool = false
+local tool = 0
 
 
 
@@ -58,10 +58,13 @@ function SantaUpdate(dt)
     end
 
     -- En contact avec un outil
-    if SantaIsToolCollide() then
+    local t = SantaIsToolCollide()
+    if t ~= 'none' then
         collideTool = true
+        tool = GetToolIndex(t)
     else
         collideTool = false
+        tool = 0
     end
 
 end
@@ -166,11 +169,27 @@ function SantaIsToolCollide()
     local c8 = GetMapTool(s4.l, s4.c)
 
     if
-        c5 ~= 'empty' or c6 ~= 'empty' or c7 ~= 'empty' or c8 ~= 'empty'
+        c5 ~= 'empty'
     then
-        return true
+        return c5
+    elseif c6 ~= 'empty' then
+        return c6
+    elseif c7 ~= 'empty' then
+        return c7
+    elseif c8 ~= 'empty' then
+        return c8
     else
-        return false
+        return 'none'
     end
+
+end
+
+
+
+-- GET NEAR TOOL
+----------------
+function GetNearTool()
+
+    return tool
 
 end

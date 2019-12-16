@@ -157,6 +157,20 @@ function love.keypressed(key)
         GenerateSequence()
     end
 
+    -- GAME SEQUENCE
+    if key == 'c' and screen == 'game' then
+        
+        local tool = GetNearTool()
+        local sled = GetToolIndex('sled')
+
+        if tool == sled then -- Validation de la séquence du joueur
+            ValidatePlayerSeq()
+        elseif tool ~= 0 then -- Ajout de l'outil à la séquence du joueur
+            SetPlayerSeq(tool)
+        end
+
+    end
+
 end
 
 

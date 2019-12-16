@@ -221,13 +221,13 @@ end
 
 
 
--- GET INDEX SLED
+-- GET TOOL INDEX
 -----------------
-function GetSledIndex()
+function GetToolIndex(pToolName)
 
     for i = #Map.listTools, 1, -1 do
         local tool = Map.listTools[i]
-        if tool.name == 'sled' then
+        if tool.name == pToolName then
             return i
         end
     end

@@ -15,7 +15,7 @@ function GenerateSequence()
 
     sequence = {}
 
-    local sled = GetSledIndex()
+    local sled = GetToolIndex('sled')
 
     sequence[1] = math.floor(math.random(6))
     while sequence[1] == sled do
@@ -64,7 +64,7 @@ end
 ----------------------
 function SetPlayerSeq(pSequence)
 
-    if #playerSeq > 5 then
+    if #playerSeq >= 5 then
         ResetPlayerSeq()
     end
     table.insert(playerSeq, pSequence)
@@ -89,13 +89,29 @@ end
 ---------------------
 function IsValideSeq()
 
-    local result =  playerSeq == sequence
+    local match = 0
+    for i = 1, #sequence do
+        if playerSeq[i] == sequence[i] then
+            match = match + 1
+        end
+    end
+    return match == 5
+
+end
+
+
+
+-- VALIDATE PLAYER SEQUENCEN
+----------------------------
+function ValidatePlayerSeq()
+
+    if IsValideSeq() then
+        AddGame()
+    end
 
     GenerateSequence()
 
     ResetPlayerSeq()
-
-    return result
 
 end
 

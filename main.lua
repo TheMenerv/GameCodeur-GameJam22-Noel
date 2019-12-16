@@ -253,6 +253,7 @@ function ResetGame()
     -- GAME
     GenerateSequence()
     ResetPlayerSeq()
+    NewGame()
 
     -- SANTA
     SantaLoad()

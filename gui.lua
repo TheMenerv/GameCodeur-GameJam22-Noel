@@ -5,6 +5,7 @@
 
 
 local games, maxGames, timerDay
+maxGames = 1
 
 
 
@@ -13,7 +14,6 @@ local games, maxGames, timerDay
 function GUILoad()
 
     games = 0
-    maxGames = 10
     timerDay = 365
 
 end
@@ -55,5 +55,19 @@ end
 function AddGame()
 
     games = games + 1
+
+end
+
+
+
+-- NEW GAME
+-----------
+function NewGame()
+
+    if maxGames == 1 then
+        maxGames = 10
+    else
+        maxGames = maxGames + 1
+    end
 
 end

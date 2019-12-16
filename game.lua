@@ -109,7 +109,7 @@ function DrawSequence()
         local img = GetToolImg(sequence[i])
         love.graphics.draw(
             img,
-            300 + (i * img:getWidth() * (SCALE / 2)) + 10,
+            300 + (i * img:getWidth() * (SCALE / 2)) + (10 * i),
             10,
             0,
             SCALE / 2,

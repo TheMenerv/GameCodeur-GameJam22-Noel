@@ -29,6 +29,9 @@ GameWin = false
 
 local screen
 
+local flashTime = 0
+local flashAlpha = 0
+
 
 
 -- INITIALISATION
@@ -72,6 +75,18 @@ function love.update(dt)
         end
     end
 
+    if flashTime > 0 then
+        flashTime = flashTime - (dt * 60)
+        flashAlpha = 1
+    else
+        flashTime = 0
+        if flashAlpha > 0 then
+            flashAlpha = flashAlpha - (dt * 10)
+        else
+            flashAlpha = 0
+        end
+    end
+
 
 end
 
@@ -96,18 +111,18 @@ function love.draw()
     -- GAME SCREEN
     else
         -- DEBUG
-        if DebugMode then
-            MapDebugDraw()
-            love.graphics.setColor(1, 0, 0)
-            love.graphics.print(
-                "L="..tostring(Mouse.l)..
-                " C="..tostring(Mouse.c)..
-                " B="..tostring(GetMapContent(Mouse.l, Mouse.c))..
-                " T="..tostring(GetMapTool(Mouse.l, Mouse.c)),
-                5, 5
-            )
-            love.graphics.setColor(1, 1, 1)
-        else
+        --if DebugMode then
+        --    MapDebugDraw()
+        --    love.graphics.setColor(1, 0, 0)
+        --    love.graphics.print(
+        --        "L="..tostring(Mouse.l)..
+        --        " C="..tostring(Mouse.c)..
+        --        " B="..tostring(GetMapContent(Mouse.l, Mouse.c))..
+        --        " T="..tostring(GetMapTool(Mouse.l, Mouse.c)),
+        --        5, 5
+        --    )
+        --    love.graphics.setColor(1, 1, 1)
+        --else
             -- MAP
             MapDraw()
             -- GUI
@@ -116,7 +131,9 @@ function love.draw()
             SantaDraw()
             -- GAME SEQUENCE
             DrawSequence()
-        end
+            -- FLASH
+            FlashDraw()
+        --end
     end
 
 end
@@ -148,14 +165,14 @@ function love.keypressed(key)
     end
 
     -- DEBUG MODE SWITCH
-    if key == 'd' and screen == 'game' then
-        DebugMode = not DebugMode
-    end
+    --if key == 'd' and screen == 'game' then
+    --    DebugMode = not DebugMode
+    --end
 
     -- GENERATE NEW SEQUENCE
-    if key == 'g' and screen == 'game' then
-        GenerateSequence()
-    end
+    --if key == 'g' and screen == 'game' then
+    --    GenerateSequence()
+    --end
 
     -- GAME SEQUENCE
     if key == 'c' and screen == 'game' then
@@ -165,8 +182,10 @@ function love.keypressed(key)
 
         if tool == sled then -- Validation de la séquence du joueur
             ValidatePlayerSeq()
+            Flash()
         elseif tool ~= 0 then -- Ajout de l'outil à la séquence du joueur
             SetPlayerSeq(tool)
+            Flash()
         end
 
     end
@@ -208,5 +227,27 @@ function ResetGame()
     -- GAME
     GenerateSequence()
     ResetPlayerSeq()
+
+end
+
+
+
+-- FLASH
+--------
+function Flash()
+
+    flashTime = 1
+
+end
+
+
+
+-- FLASH DRAW
+-------------
+function FlashDraw()
+
+    love.graphics.setColor(1, 1, 1, flashAlpha)
+    love.graphics.rectangle('fill', 0, 0, Window.width * SCALE, Window.height * SCALE)
+    love.graphics.setColor(1, 1, 1, 1)
 
 end

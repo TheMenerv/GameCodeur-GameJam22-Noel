@@ -107,9 +107,8 @@ function ValidatePlayerSeq()
 
     if IsValideSeq() then
         AddGame()
+        GenerateSequence()
     end
-
-    GenerateSequence()
 
     ResetPlayerSeq()
 

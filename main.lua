@@ -4,6 +4,7 @@
 
 io.stdout:setvbuf('no')
 love.graphics.setDefaultFilter("nearest")
+math.randomseed(os.time())
 
 
 
@@ -12,6 +13,7 @@ require('screens')
 require('map')
 require('gui')
 require('santa')
+require('game')
 
 
 
@@ -112,6 +114,8 @@ function love.draw()
             GUIDraw()
             -- SANTA
             SantaDraw()
+            -- GAME SEQUENCE
+            DrawSequence()
         end
     end
 
@@ -148,6 +152,11 @@ function love.keypressed(key)
         DebugMode = not DebugMode
     end
 
+    -- GENERATE NEW SEQUENCE
+    if key == 'g' and screen == 'game' then
+        GenerateSequence()
+    end
+
 end
 
 
@@ -181,5 +190,9 @@ function ResetGame()
 
     -- GUI
     GUILoad()
+
+    -- GAME
+    GenerateSequence()
+    ResetPlayerSeq()
 
 end

@@ -126,7 +126,6 @@ function MapDraw()
     -- Déssine les outils
     for t = #Map.listTools, 1, -1 do
         local tool = Map.listTools[t]
-        local level = tool.currentLevel
         love.graphics.draw(tool.img, tool.x, tool.y, 0, SCALE, SCALE)
     end
 
@@ -207,5 +206,30 @@ function GetToolInfo(pToolName)
     end
 
     return 0
+
+end
+
+
+
+-- GET TOOL IMG
+---------------
+function GetToolImg(pToolIndex)
+
+    return Map.listTools[pToolIndex].img
+
+end
+
+
+
+-- GET INDEX SLED
+-----------------
+function GetSledIndex()
+
+    for i = #Map.listTools, 1, -1 do
+        local tool = Map.listTools[i]
+        if tool.name == 'sled' then
+            return i
+        end
+    end
 
 end

@@ -14,6 +14,7 @@ require('map')
 require('gui')
 require('santa')
 require('game')
+require('song')
 
 
 
@@ -27,7 +28,7 @@ DebugMode = false
 TimeOver = false
 GameWin = false
 
-local screen
+local screen, tempScreen
 
 local flashTime = 0
 local flashAlpha = 0
@@ -47,6 +48,7 @@ function love.load()
     Window.height = love.graphics.getHeight() / SCALE
 
     -- INIT GAME
+    tempScreen = 'none'
     InitGame()
 
 end
@@ -56,6 +58,15 @@ end
 -- UPDATE
 ---------
 function love.update(dt)
+
+    -- MUSIC
+    if screen ~= tempScreen then
+        if tempScreen ~= 'none' then
+            StopMusic(tempScreen)
+        end
+        PlayMusic(screen)
+        tempScreen = screen
+    end
 
     Mouse = GetMousePos()
 

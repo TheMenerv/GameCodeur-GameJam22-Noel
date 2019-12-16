@@ -27,9 +27,9 @@ local imgSmithy     = love.graphics.newImage('images/smithy.png')
 
 
 
--- MAP LOAD
------------
-function MapLoad()
+-- MAP RELOAD
+-------------
+function MapReload()
 
     DebugMode = false
 
@@ -51,6 +51,16 @@ function MapLoad()
             end
         end
     end
+
+end
+
+
+
+-- MAP LOAD
+-----------
+function MapLoad()
+
+    MapReload()
 
     -- Création des outillages
     CreateTool('anvil', 6, 3, imgAnvil)

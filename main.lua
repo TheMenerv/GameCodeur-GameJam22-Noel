@@ -209,7 +209,22 @@ end
 ------------
 function InitGame()
 
-    ResetGame()
+    DebugMode = false
+    TimeOver = false
+    GameWin = false
+    
+    -- SCREEN TITLE
+    screen = 'title'
+
+    -- MAP
+    MapLoad()
+
+    -- GUI
+    GUILoad()
+
+    -- GAME
+    GenerateSequence()
+    ResetPlayerSeq()
 
     -- SANTA
     SantaLoad()
@@ -230,7 +245,7 @@ function ResetGame()
     screen = 'title'
 
     -- MAP
-    MapLoad()
+    MapReload()
 
     -- GUI
     GUILoad()
@@ -238,6 +253,9 @@ function ResetGame()
     -- GAME
     GenerateSequence()
     ResetPlayerSeq()
+
+    -- SANTA
+    SantaLoad()
 
 end
 

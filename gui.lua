@@ -13,7 +13,7 @@ local games, maxGames, timerDay
 function GUILoad()
 
     games = 0
-    maxGames = 1000
+    maxGames = 10
     timerDay = 365
 
 end
@@ -29,7 +29,7 @@ function GUIUpdate(dt)
         GameWin = true
     end
 
-    timerDay = timerDay - dt
+    timerDay = timerDay - (dt * 2)
     if timerDay < 0 then
         timerDay = 0
         TimeOver = true

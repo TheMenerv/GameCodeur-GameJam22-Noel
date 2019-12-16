@@ -12,6 +12,8 @@ local cKey = love.graphics.newImage('images/c.png')
 local collideTool = false
 local tool = 0
 
+local speed = 3
+
 
 
 -- LOAD SANTA
@@ -37,18 +39,18 @@ function SantaUpdate(dt)
 
     -- Déplacements
     if love.keyboard.isDown('up') then
-        santa.y = santa.y - 2 * 60 * dt
+        santa.y = santa.y - speed * 60 * dt
     end
     if love.keyboard.isDown('right') then
         santa.dir = 'right'
-        santa.x = santa.x + 2 * 60 * dt
+        santa.x = santa.x + speed * 60 * dt
     end
     if love.keyboard.isDown('down') then
-        santa.y = santa.y + 2 * 60 * dt
+        santa.y = santa.y + speed * 60 * dt
     end
     if love.keyboard.isDown('left') then
         santa.dir = 'left'
-        santa.x = santa.x - 2 * 60 * dt
+        santa.x = santa.x - speed * 60 * dt
     end
 
     -- Collision
